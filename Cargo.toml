@@ -1,0 +1,12 @@
+[package]
+name = "day-night"
+version = "0.1.0"
+authors = ["Max Verevkin <me@maxverevkin.tk>"]
+edition = "2018"
+description = "A simple program that executes shell commands based on the time of day"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sunrise = "1.0"
+chrono = "0.4"
