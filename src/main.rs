@@ -11,7 +11,7 @@ pub const LAT: f64 = 30.;
 pub const LON: f64 = 30.;
 const DAY_CMD: &str = "ln -fs ~/.config/nvim/theme-light.vim ~/.config/nvim/theme.vim; ln -fs ~/.config/kitty/kitty-themes/themes/Material.conf ~/.config/kitty/theme.conf";
 const NIGHT_CMD: &str = "ln -fs ~/.config/nvim/theme-dark.vim ~/.config/nvim/theme.vim; ln -fs ~/.config/kitty/kitty-themes/themes/MaterialDark.conf ~/.config/kitty/theme.conf";
-const INTERVAL_SEC: u64 = 10;
+const INTERVAL_SEC: u64 = 60 * 10;
 
 fn main() {
     loop {
