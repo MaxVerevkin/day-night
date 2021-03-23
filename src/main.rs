@@ -73,7 +73,6 @@ fn main() {
             DayNight::Night => night,
         };
         if let Some(cmd) = cmd {
-            dbg!(cmd);
             spawn_shell_async(cmd);
         }
         thread::sleep(interval);
