@@ -44,6 +44,12 @@ fn main() {
                 .takes_value(true)
                 .long("night"),
         )
+        .arg(
+            Arg::with_name("always-run")
+                .help("If set, a command will be run on each update. Otherwise, a command will be run only when changing states (from night to day and vice versa)")
+                .takes_value(false)
+                .long("always-run"),
+        )
         .get_matches();
 
     // Get arguments
@@ -65,15 +71,19 @@ fn main() {
         .expect("longitude shuld be a number");
     let day = matches.value_of("day");
     let night = matches.value_of("night");
+    let always_run = matches.is_present("always-run");
 
+    let mut prev_state = None;
     loop {
         let state = DayNight::current(latitude, longitude);
-        let cmd = match state {
-            DayNight::Day => day,
-            DayNight::Night => night,
-        };
-        if let Some(cmd) = cmd {
-            spawn_shell_async(cmd);
+        if Some(state) != prev_state || always_run {
+            prev_state = Some(state);
+            if let Some(cmd) = match state {
+                DayNight::Day => day,
+                DayNight::Night => night,
+            } {
+                spawn_shell_async(cmd);
+            }
         }
         thread::sleep(interval);
     }

@@ -3,7 +3,7 @@ use std::time::{Duration, UNIX_EPOCH};
 use chrono::prelude::*;
 use sunrise::sunrise_sunset;
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum DayNight {
     Day,
     Night,
