@@ -73,17 +73,31 @@ fn main() {
     let night = matches.value_of("night");
     let always_run = matches.is_present("always-run");
 
+    let exec = |state| {
+        if let Some(cmd) = match state {
+            DayNight::Day => day,
+            DayNight::Night => night,
+        } {
+            spawn_shell_async(cmd);
+        }
+    };
+
+    if interval.is_zero() {
+        let state = DayNight::current(latitude, longitude);
+        match state {
+            DayNight::Day => println!("day"),
+            DayNight::Night => println!("night"),
+        }
+        exec(state);
+        return;
+    }
+
     let mut prev_state = None;
     loop {
         let state = DayNight::current(latitude, longitude);
         if Some(state) != prev_state || always_run {
             prev_state = Some(state);
-            if let Some(cmd) = match state {
-                DayNight::Day => day,
-                DayNight::Night => night,
-            } {
-                spawn_shell_async(cmd);
-            }
+            exec(state);
         }
         thread::sleep(interval);
     }
